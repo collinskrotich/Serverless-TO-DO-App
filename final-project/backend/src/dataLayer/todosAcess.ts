@@ -3,7 +3,7 @@ import * as AWS from 'aws-sdk'
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { createLogger } from '../utils/logger'
 import { TodoItem } from '../models/TodoItem'
-import { TodoUpdate } from '../models/TodoUpdate';
+// import { TodoUpdate } from '../models/TodoUpdate';
 var AWSXRay = require('aws-xray-sdk');
 
 const XAWS = AWSXRay.captureAWS(AWS)
@@ -52,9 +52,9 @@ export class TodosAccess {
         return todoItem as TodoItem
     }
 
-    async updateTodoItem(
-        todoId: string,
-        userId: string,
-        TodoUpdate: TodoUpdate
-    )
+    // async updateTodoItem(
+    //     todoId: string,
+    //     userId: string,
+    //     TodoUpdate: TodoUpdate
+    // )
 }

@@ -3,7 +3,6 @@ org: ronzorous
 app: serverless-todo-app
 service: serverless-todo-app
 frameworkVersion: '3.26.0'
-configValidationMode: off
 
 plugins:
   - serverless-webpack
@@ -45,7 +44,7 @@ provider:
           Resource: "*"
 
 
-# functions:  
+functions:  
 #     hello:
 #       handler: handler.hello
 #       events:
@@ -93,7 +92,7 @@ provider:
       - Effect: Allow
         Action: 
           - xray:PutTraceSegments
-        Resources: 
+        Resource: 
           - '*'
 
   # TODO: Configure this function
