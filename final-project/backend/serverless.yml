@@ -25,7 +25,7 @@ provider:
   environment:
     TODOS_TABLE: Serverless-todo-app-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
-    ATTACHMENT_S3_BUCKET: serverless-todo-app-images-${self:provider.stage}
+    ATTACHMENT_S3_BUCKET: serverless-todo-app-ronzie-images-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
     PROJECT_NAME: serverless-iam-roles-per-function
     INDEX_NAME: ${self:provider.environment.TODOS_CREATED_AT_INDEX}
@@ -167,16 +167,16 @@ resources:
       Properties:
         AttributeDefinitions:
           - AttributeName: userId
-            AttributeType: String
+            AttributeType: S
           - AttributeName: todoId
-            AttributeType: String
+            AttributeType: S
           - AttributeName: createdAt
-            AttributeType: String 
+            AttributeType: S
         KeySchema:
           - AttributeName: userId
             KeyType: HASH
           - AttributeName: todoId
-            KeyType: HASH
+            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.TODOS_TABLE}
         LocalSecondaryIndexes:
@@ -185,7 +185,7 @@ resources:
               - AttributeName: userId
                 KeyType: HASH
               - AttributeName: createdAt
-                KeyType: HASH
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
 
