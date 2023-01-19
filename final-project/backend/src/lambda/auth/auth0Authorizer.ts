@@ -55,11 +55,11 @@ export const handler = async (
 }
 
 async function verifyToken(authHeader: string): Promise<JwtPayload> {
-  logger.info('Verifying token')
+  logger.info('Verifying token', authHeader.substring(0,20))
   const token = getToken(authHeader)
   const jwt: Jwt = decode(token, { complete: true }) as Jwt
 
-  // TODO: Implement token verification
+  // DONE!: Implement token verification
   // You should implement it similarly to how it was implemented for the exercise for the lesson 5
   // You can read more about how to do this here: https://auth0.com/blog/navigating-rs256-and-jwks/
   const response = await Axios.get(jwksUrl)
