@@ -61,17 +61,11 @@ custom:
         schema: ${file(models/update-todo-model.json)}
 
 functions:  
-#     hello:
-#       handler: handler.hello
-#       events:
-#         - httpApi:
-#             path: /
-#             method: get
 
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
-  # TODO: Configure this function - 
+  # DONE!: Configure this function - 
   # Provide iamRoleStatements property for performing Actions on DynamoDB
 
   GetTodos:
@@ -100,7 +94,7 @@ functions:
         Resource: 
           - '*'
 
-  # TODO: Configure this function - 
+  # DONE!: Configure this function - 
   # Provide iamRoleStatements property. Decide the Actions and AWS Resource. 
   # To refer to an AWS resource defined in the "Resources" section, you can use "Resource: !GetAtt <resource-name>.Arn"
   # To validate incoming HTTP requests, we have provided the request schemas in function definition below.
@@ -134,7 +128,7 @@ functions:
         Resource: 
           - '*'
 
-  # TODO: Configure this function
+  # DONE!: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements, and request schemas
 
   UpdateTodo:
@@ -165,23 +159,59 @@ functions:
   # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
 
-  # DeleteTodo:
-  #   handler: src/lambda/http/deleteTodo.handler
-  #   events:
-  #     - http:
-  #         method: delete
-  #         path: todos/{todoId}
+  DeleteTodo:
+    handler: src/lambda/http/deleteTodo.handler
+    events:
+      - http:
+          method: delete
+          path: todos/{todoId}
+          cors: true
+          authorizer: Auth
+          # reqValidatorName: RequestBodyValidator
+          # documentation:
+          #   summary: Delete a todo task
+          #   description: Delete a todo task
+          #   requestModels:
+          #     'application/json': UpdateTodoRequest          
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-delete-todo-role-${self:provider.stage}
+    iamRoleStatements: 
+      - Effect: Allow
+        Action: 
+          - dynamodb:DeleteItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+      - Effect: Allow
+        Action: 
+          - xray:PutTraceSegments
+        Resource: 
+          - '*'   
 
   # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
 
-  # GenerateUploadUrl:
-  #   handler: src/lambda/http/generateUploadUrl.handler
-  #   events:
-  #     - http:
-  #         method: post
-  #         path: todos/{todoId}/attachment
-
+  GenerateUploadUrl:
+    handler: src/lambda/http/generateUploadUrl.handler
+    events:
+      - http:
+          method: post
+          path: todos/{todoId}/attachment
+          cors: true
+          authorizer: Auth       
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-generate-s3-upload-url-role-${self:provider.stage}
+    iamRoleStatements: 
+      - Effect: Allow
+        Action: 
+          - s3:*
+        Resource: arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*
+      - Effect: Allow
+        Action: 
+          - dynamodb:Query
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+      - Effect: Allow
+        Action: 
+          - xray:PutTraceSegments
+        Resource: 
+          - '*' 
 resources:
   Resources:
     # Add necessary AWS resources. You will need at least the following AWS resources
