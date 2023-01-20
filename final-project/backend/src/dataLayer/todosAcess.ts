@@ -67,25 +67,31 @@ export class TodosAccess {
             todoId,
             userId
             },
-            UpdateExpression: 'set #name = :name, dueDate = :dueDate, done = :done',
-            ExpressionAttributeNames: {
-                ':name': todoUpdate.name,
-                ':dueDate': todoUpdate.dueDate,
-                ':done': todoUpdate.done
-            },
-            ExpressionAttributeValues: {
-                '#name': 'name'
-            },
-            ReturnValues: 'UPDATED_NEW'
-        })
-        .promise()
+            UpdateExpression: 'set #name = :name, #dueDate = :dueDate, #done = :done',
+                ExpressionAttributeValues: {
+                    '#name': todoUpdate.name,
+                    '#dueDate': todoUpdate.dueDate,
+                    '#done': todoUpdate.done
+                },            
+                ExpressionAttributeNames: {
+                    ':name': "name",
+                    ':dueDate': "dueDate",
+                    ":done": "done"
+                },
+
+               
+                ReturnValues: 'UPDATED_NEW'
+            })
+            .promise()
 
         return todoUpdate as TodoUpdate
     }
 
+
     async deleteTodoItem(
-        userId: string,
-        todoId: string
+        todoId: string,
+        userId: string
+        
     ): Promise<void> {
         logger.info('Delete todo item function called')
 
@@ -99,7 +105,7 @@ export class TodosAccess {
          })
         .promise()
         logger.info('Todo item deleted', result)
-        return todoId  
+        // return 'deleted'
         // as string
 
     }
