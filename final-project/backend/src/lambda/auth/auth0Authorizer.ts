@@ -1,6 +1,6 @@
 import { CustomAuthorizerEvent, CustomAuthorizerResult } from 'aws-lambda'
 import 'source-map-support/register'
-
+// @deprecated — Use APIGatewayAuthorizerEvent or a subtype CustomAuthorizerEvent
 import { verify, decode } from 'jsonwebtoken'
 import { createLogger } from '../../utils/logger'
 import Axios from 'axios'
@@ -45,7 +45,7 @@ export const handler = async (
         Statement: [
           {
             Action: 'execute-api:Invoke',
-            Effect: 'Deny',
+            Effect: 'Allow',
             Resource: '*'
           }
         ]

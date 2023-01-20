@@ -3,6 +3,7 @@ import * as AWS from 'aws-sdk'
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { createLogger } from '../utils/logger'
 import { TodoItem } from '../models/TodoItem'
+import { TodoUpdate } from '../models/TodoUpdate';
 // import { TodoUpdate } from '../models/TodoUpdate';
 var AWSXRay = require('aws-xray-sdk');
 
@@ -29,7 +30,7 @@ export class TodosAccess {
             IndexName: this.todosIndex,
             KeyConditionExpression: 'userId = :userId',
             ExpressionAttributeValues: {
-                ':userId': userId
+            ':userId': userId
             }
         })
         .promise()
@@ -52,9 +53,33 @@ export class TodosAccess {
         return todoItem as TodoItem
     }
 
-    // async updateTodoItem(
-    //     todoId: string,
-    //     userId: string,
-    //     TodoUpdate: TodoUpdate
-    // )
+    async updateTodoItem(
+        userId: string,
+        todoId: string,
+        todoUpdate: TodoUpdate
+    ): Promise<TodoUpdate> {
+        logger.info('Update todo item function called')
+
+        await this.docClient
+        .update({
+            TableName: this.todosTable,
+            Key: {
+            todoId,
+            userId
+            },
+            UpdateExpression: 'set #name = :name, dueDate = :dueDate, done = :done',
+            ExpressionAttributeNames: {
+                ':name': todoUpdate.name,
+                ':dueDate': todoUpdate.dueDate,
+                ':done': todoUpdate.done
+            },
+            ExpressionAttributeValues: {
+                '#name': 'name'
+            },
+            ReturnValues: 'UPDATED_NEW'
+        })
+        .promise()
+
+        return todoUpdate as TodoUpdate
+    }
 }

@@ -11,25 +11,17 @@ import { getUserId } from '../utils';
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 
-    try{
-      const userId = getUserId(event);
-      const todos = await getTodosForUser(userId);
+      const userId = getUserId(event)
+      const todos = await getTodosForUser(userId)
 
       return {
         statusCode: 200,
         body: JSON.stringify(
-          { items: todos }
-        )
-      }
-    }catch(e){
-      return {
-        statusCode: 500,
-        body: JSON.stringify(
-          { msg: (e as Error).message }
-        )
+          { items: todos 
+          })
       }
     }
-  })
+  )
 
 handler.use(
   cors({

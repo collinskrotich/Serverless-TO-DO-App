@@ -2,7 +2,7 @@ import { TodosAccess } from '../dataLayer/todosAcess'
 import { AttachmentUtils } from '../helpers/attachmentUtils';
 import { TodoItem } from '../models/TodoItem'
 import { CreateTodoRequest } from '../requests/CreateTodoRequest'
-// import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
+import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 import { createLogger } from '../utils/logger'
 import * as uuid from 'uuid'
 // import * as createError from 'http-errors'
@@ -42,4 +42,14 @@ export async function createTodo(
 
         return await todosAccess.createTodoItem(newItem)
    
+}
+
+// Update To Do Function
+export async function updateTodo(
+    userId: string,
+    todoId: string,
+    todoUpdate: UpdateTodoRequest
+    ): Promise<UpdateTodoRequest> {
+    logger.info('Update todo function called')
+    return todosAccess.updateTodoItem(todoId, userId, todoUpdate)    
 }
