@@ -25,7 +25,7 @@ provider:
   environment:
     TODOS_TABLE: Serverless-todo-app-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
-    ATTACHMENT_S3_BUCKET: serverless-todo-app-ronzie-images-${self:provider.stage}
+    ATTACHMENT_S3_BUCKET: serverless-todo-app-ronz-images-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
     PROJECT_NAME: serverless-iam-roles-per-function
     INDEX_NAME: ${self:provider.environment.TODOS_CREATED_AT_INDEX}
@@ -58,14 +58,31 @@ functions:
   # TODO: Configure this function - 
   # Provide iamRoleStatements property for performing Actions on DynamoDB
 
-  # GetTodos:
-  #   handler: src/lambda/http/getTodos.handler
-  #   events:
-  #     - http:
-  #         method: get
-  #         path: todos
-  #         cors: true
-  #         authorizer: Auth
+  GetTodos:
+    handler: src/lambda/http/getTodos.handler
+    events:
+      - http:
+          method: get
+          path: todos
+          cors: true
+          authorizer: Auth
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-get-todo-role-${self:provider.stage}
+    iamRoleStatements: 
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem 
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.TODOS_CREATED_AT_INDEX}
+
+      - Effect: Allow
+        Action: 
+          - xray:PutTraceSegments
+        Resource: 
+          - '*'
 
   # TODO: Configure this function - 
   # Provide iamRoleStatements property. Decide the Actions and AWS Resource. 
@@ -79,7 +96,7 @@ functions:
           method: post
           path: todos
           cors: true
-          # authorizer: Auth
+          authorizer: Auth
           # request:
           #   schemas:
           #     application/json: ${file(models/create-todo-model.json)}
@@ -128,7 +145,7 @@ functions:
 resources:
   Resources:
     # Add necessary AWS resources. You will need at least the following AWS resources
-    # TODO: Fill the properties
+    # DONE!: Fill the properties
     # Feel free to change the names as you like. 
     GatewayResponseDefault4XX:
       Type: AWS::ApiGateway::GatewayResponse
@@ -189,7 +206,7 @@ resources:
             Projection:
               ProjectionType: ALL
 
-    # TODO: Complete the bucket properties below. 
+    # DONE!: Complete the bucket properties below. 
     # Do not forget to add the CorsConfiguration propoerty
     AttachmentBucket:
       Type: AWS::S3::Bucket
@@ -209,7 +226,7 @@ resources:
                 - HEAD
               MaxAge: 300
 
-    # TODO: Complete the policy below and attach it to the bucket defined above
+    # DONE!: Complete the policy below and attach it to the bucket defined above
     # For cross referencing the name of the bucket, use "!Ref AttachmentsBucket"
     BucketPolicy:
       Type: AWS::S3::BucketPolicy
