@@ -196,7 +196,7 @@ functions:
           path: todos/{todoId}/attachment
           cors: true
           authorizer: Auth       
-    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-generate-s3-upload-url-role-${self:provider.stage}
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-generate-s3url-role-${self:provider.stage}
     iamRoleStatements: 
       - Effect: Allow
         Action: 
