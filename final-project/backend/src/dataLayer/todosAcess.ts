@@ -54,37 +54,40 @@ export class TodosAccess {
     }
 
     async updateTodoItem(
-        userId: string,
+        
         todoId: string,
-        todoUpdate: TodoUpdate
+        todoUpdate: TodoUpdate,
+        userId: string
     ): Promise<TodoUpdate> {
         logger.info('Update todo item function called')
 
-        await this.docClient
+        const result = await this.docClient
         .update({
             TableName: this.todosTable,
             Key: {
             todoId,
             userId
             },
-            UpdateExpression: 'set #name = :name, #dueDate = :dueDate, #done = :done',
+            UpdateExpression: 'set #name = :name, dueDate = :dueDate, done = :done',
                 ExpressionAttributeValues: {
-                    '#name': todoUpdate.name,
-                    '#dueDate': todoUpdate.dueDate,
-                    '#done': todoUpdate.done
+                    ':name': todoUpdate.name,
+                    ':dueDate': todoUpdate.dueDate,
+                    ':done': todoUpdate.done
                 },            
                 ExpressionAttributeNames: {
-                    ':name': "name",
-                    ':dueDate': "dueDate",
-                    ":done": "done"
+                    '#name': "name",
                 },
 
                
-                ReturnValues: 'UPDATED_NEW'
+                ReturnValues: 'ALL_NEW'
             })
             .promise()
 
-        return todoUpdate as TodoUpdate
+            const todoItemUpdate = result.Attributes
+            logger.info('Todo item update', todoItemUpdate)
+            return todoItemUpdate as TodoUpdate
+           
+
     }
 
 

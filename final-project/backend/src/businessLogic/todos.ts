@@ -5,6 +5,7 @@ import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 import { createLogger } from '../utils/logger'
 import * as uuid from 'uuid'
+import { TodoUpdate } from '../models/TodoUpdate';
 // import { Logger } from 'winston';
 // import * as createError from 'http-errors'
 
@@ -48,10 +49,10 @@ export async function createTodo(
 // Update To Do Function
 
 export async function updateTodo(
-    userId: string,
     todoId: string,
-    todoUpdate: UpdateTodoRequest
-    ): Promise<UpdateTodoRequest> {
+    todoUpdate: UpdateTodoRequest,
+    userId: string
+    ): Promise<TodoUpdate> {
         logger.info('Update todo function called')
         return todosAccess.updateTodoItem(todoId, userId, todoUpdate)    
 }
