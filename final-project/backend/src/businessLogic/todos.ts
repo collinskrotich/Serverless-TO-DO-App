@@ -58,15 +58,15 @@ export async function updateTodo(
 
 // Delete To Do Function
 
-// export async function deleteTodo(
-//     todoId: string,
-//     userId: string
+export async function deleteTodo(
+    todoId: string,
+    userId: string
       
-//     ): Promise<string> {
+    ): Promise<string> {
 
-//         logger.info('Delete todo function called: ${todoId} for User: ${userId}')
-//         return await todosAccess.deleteTodoItem(todoId, userId)
-// }
+        logger.info('Delete todo function called: ${todoId} for User: ${userId}')
+        return todosAccess.deleteTodoItem(todoId, userId)
+}
 
 // Create attachment function
 

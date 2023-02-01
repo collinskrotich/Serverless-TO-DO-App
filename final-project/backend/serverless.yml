@@ -157,7 +157,7 @@ functions:
         Resource: 
           - '*'    
 
-  # TODO: Configure this function
+  # DONE!: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
 
   DeleteTodo:
@@ -186,7 +186,7 @@ functions:
         Resource: 
           - '*'   
 
-  # TODO: Configure this function
+  # DONE!: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
 
   GenerateUploadUrl:

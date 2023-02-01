@@ -92,7 +92,7 @@ export class TodosAccess {
         todoId: string,
         userId: string
         
-    ): Promise<void> {
+    ): Promise<string> {
         logger.info('Delete todo item function called')
 
         const result =  await this.docClient
@@ -105,8 +105,7 @@ export class TodosAccess {
          })
         .promise()
         logger.info('Todo item deleted', result)
-        // return 'deleted'
-        // as string
+        return todoId as string
 
     }
 
