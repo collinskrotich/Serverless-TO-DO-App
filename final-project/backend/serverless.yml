@@ -155,7 +155,8 @@ functions:
         Action: 
           - xray:PutTraceSegments
         Resource: 
-          - '*'        
+          - '*'    
+              
   # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
 

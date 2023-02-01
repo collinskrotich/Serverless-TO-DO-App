@@ -8,7 +8,7 @@ import * as uuid from 'uuid'
 // import { Logger } from 'winston';
 // import * as createError from 'http-errors'
 
-// TODO: Implement businessLogic
+// DONE!: Implement businessLogic
 
 const logger = createLogger('TodosAccess')
 const attachmentUtils = new AttachmentUtils
@@ -46,6 +46,7 @@ export async function createTodo(
 }
 
 // Update To Do Function
+
 export async function updateTodo(
     userId: string,
     todoId: string,
