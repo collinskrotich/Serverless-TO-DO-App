@@ -56,8 +56,9 @@ export class TodosAccess {
     async updateTodoItem(
         
         todoId: string,
-        todoUpdate: TodoUpdate,
-        userId: string
+        userId: string,
+        todoUpdate: TodoUpdate
+        
     ): Promise<TodoUpdate> {
         logger.info('Update todo item function called')
 
@@ -70,12 +71,12 @@ export class TodosAccess {
             },
             UpdateExpression: 'set #name = :name, dueDate = :dueDate, done = :done',
                 ExpressionAttributeValues: {
-                    ':name': todoUpdate.name,
-                    ':dueDate': todoUpdate.dueDate,
-                    ':done': todoUpdate.done
+                ':name': todoUpdate.name,
+                ':dueDate': todoUpdate.dueDate,
+                ':done': todoUpdate.done
                 },            
                 ExpressionAttributeNames: {
-                    '#name': "name",
+                '#name': "name",
                 },
 
                

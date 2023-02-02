@@ -50,8 +50,9 @@ export async function createTodo(
 
 export async function updateTodo(
     todoId: string,
-    userId: string,
-    todoUpdate: UpdateTodoRequest  
+    todoUpdate: UpdateTodoRequest,
+    userId: string
+     
     ): Promise<TodoUpdate> {
         logger.info('Update todo function called')
         return todosAccess.updateTodoItem(todoId, userId, todoUpdate)    
