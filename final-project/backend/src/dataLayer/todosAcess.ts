@@ -76,7 +76,7 @@ export class TodosAccess {
                 ':done': todoUpdate.done
                 },            
                 ExpressionAttributeNames: {
-                '#name': "name",
+                '#name': "name"
                 },
 
                
