@@ -36,15 +36,6 @@ provider:
     # Enable API Gateway logs
     restApi: true
 
-  iam:
-    role:
-      statements:
-        - Effect: Allow
-          Action:
-            - xray:PutTelemetryRecords
-            # - xray:PutTraceSegments
-          Resource: "*"
-
 custom:
   documentation:
     api: 
@@ -220,7 +211,15 @@ resources:
   Resources:
     # Add necessary AWS resources. You will need at least the following AWS resources
     # DONE!: Fill the properties
-    # Feel free to change the names as you like. 
+    iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - xray:PutTelemetryRecords
+            # - xray:PutTraceSegments
+          Resource: "*"
+
     GatewayResponseDefault4XX:
       Type: AWS::ApiGateway::GatewayResponse
       Properties:
